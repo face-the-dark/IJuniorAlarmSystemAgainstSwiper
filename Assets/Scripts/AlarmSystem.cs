@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,15 +7,11 @@ public class AlarmSystem : MonoBehaviour
     private const float MinAudioSourceVolume = 0.0f;
     private const float MaxAudioSourceVolume = 1.0f;
     
-    [SerializeField] private float _volumeIncreaseStep = 0.1f;
+    [SerializeField] private float _volumeChangingStep = 0.1f;
+    [SerializeField] private AlarmSystemTrigger _alarmTrigger;
     
     private AudioSource _audioSource;
-    private bool _isSwiperInHouse;
-    
-    private Coroutine _increaseVolumeCoroutine;
-    private Coroutine _decreaseVolumeCoroutine;
-
-    public event Action SwiperIsOut;
+    private Coroutine _volumeCoroutine;
     
     private void Awake()
     {
@@ -26,59 +21,46 @@ public class AlarmSystem : MonoBehaviour
         _audioSource.Play();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        bool isItSwiper = other.TryGetComponent(out Swiper swiper);
+        _alarmTrigger.SwiperIsIn += OnSwiperIsIn;
+        _alarmTrigger.SwiperIsOut += OnSwiperIsOut;
+    }
 
-        if (isItSwiper)
-        {
-            _isSwiperInHouse = true;
+    private void OnDisable()
+    {
+        _alarmTrigger.SwiperIsIn -= OnSwiperIsIn;
+        _alarmTrigger.SwiperIsOut -= OnSwiperIsOut;
+    }
 
-            if (_decreaseVolumeCoroutine != null)
-            {
-                StopCoroutine(_decreaseVolumeCoroutine);
-                _decreaseVolumeCoroutine = null;
-            }
+    private void OnSwiperIsIn()
+    {
+        StopVolumeCoroutine();
         
-            _increaseVolumeCoroutine = StartCoroutine(StartIncreaseVolume());
+        _volumeCoroutine = StartCoroutine(StartChangingVolumeTo(MaxAudioSourceVolume));
+    }
+
+    private void OnSwiperIsOut()
+    {
+        StopVolumeCoroutine();
+
+        _volumeCoroutine = StartCoroutine(StartChangingVolumeTo(MinAudioSourceVolume));
+    }
+
+    private void StopVolumeCoroutine()
+    {
+        if (_volumeCoroutine != null)
+        {
+            StopCoroutine(_volumeCoroutine);
+            _volumeCoroutine = null;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator StartChangingVolumeTo(float targetVolume)
     {
-        bool isItSwiper = other.TryGetComponent(out Swiper swiper);
-
-        if (isItSwiper)
+        while (Mathf.Approximately(_audioSource.volume, targetVolume) == false)
         {
-            _isSwiperInHouse = false;
-
-            if (_increaseVolumeCoroutine != null)
-            {
-                StopCoroutine(_increaseVolumeCoroutine);
-                _increaseVolumeCoroutine = null;
-            }
-
-            _decreaseVolumeCoroutine = StartCoroutine(StartDecreaseVolume());
-            
-            SwiperIsOut?.Invoke();
-        }
-    }
-
-    private IEnumerator StartIncreaseVolume()
-    {
-        while (Mathf.Approximately(_audioSource.volume, MaxAudioSourceVolume) == false && _isSwiperInHouse)
-        {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, MaxAudioSourceVolume, Time.deltaTime * _volumeIncreaseStep);
-            
-            yield return null;
-        }
-    }
-
-    private IEnumerator StartDecreaseVolume()
-    {
-        while (Mathf.Approximately(_audioSource.volume, MinAudioSourceVolume) == false && _isSwiperInHouse == false)
-        {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, MinAudioSourceVolume, Time.deltaTime * _volumeIncreaseStep);
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, Time.deltaTime * _volumeChangingStep);
             
             yield return null;
         }

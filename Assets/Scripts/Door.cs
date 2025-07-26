@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
     private static readonly int OpenKey = Animator.StringToHash("Open");
     private static readonly int CloseKey = Animator.StringToHash("Close");
 
-    [SerializeField] private AlarmSystem _alarmSystem;
+    [SerializeField] private AlarmSystemTrigger _alarmTrigger;
 
     private Animator _animator;
     private bool _isOpen;
@@ -15,10 +15,10 @@ public class Door : MonoBehaviour
         _animator = GetComponent<Animator>();
 
     private void OnEnable() =>
-        _alarmSystem.SwiperIsOut += OnSwiperIsOut;
+        _alarmTrigger.SwiperIsOut += OnSwiperIsOut;
 
     private void OnDisable() =>
-        _alarmSystem.SwiperIsOut -= OnSwiperIsOut;
+        _alarmTrigger.SwiperIsOut -= OnSwiperIsOut;
 
     private void OnSwiperIsOut() =>
         Close();
