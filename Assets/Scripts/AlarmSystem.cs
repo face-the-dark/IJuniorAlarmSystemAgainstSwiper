@@ -8,7 +8,6 @@ public class AlarmSystem : MonoBehaviour
     private const float MaxAudioSourceVolume = 1.0f;
     
     [SerializeField] private float _volumeChangingStep = 0.1f;
-    [SerializeField] private AlarmSystemTrigger _alarmTrigger;
     
     private AudioSource _audioSource;
     private Coroutine _volumeCoroutine;
@@ -21,26 +20,14 @@ public class AlarmSystem : MonoBehaviour
         _audioSource.Play();
     }
 
-    private void OnEnable()
-    {
-        _alarmTrigger.SwiperIsIn += OnSwiperIsIn;
-        _alarmTrigger.SwiperIsOut += OnSwiperIsOut;
-    }
-
-    private void OnDisable()
-    {
-        _alarmTrigger.SwiperIsIn -= OnSwiperIsIn;
-        _alarmTrigger.SwiperIsOut -= OnSwiperIsOut;
-    }
-
-    private void OnSwiperIsIn()
+    public void Enable()
     {
         StopVolumeCoroutine();
         
         _volumeCoroutine = StartCoroutine(StartChangingVolumeTo(MaxAudioSourceVolume));
     }
 
-    private void OnSwiperIsOut()
+    public void Disable()
     {
         StopVolumeCoroutine();
 
