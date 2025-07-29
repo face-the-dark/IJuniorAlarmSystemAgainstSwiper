@@ -4,14 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class AlarmSystem : MonoBehaviour
 {
+    [SerializeField] private float _volumeChangingStep = 0.1f;
+
     private const float MinAudioSourceVolume = 0.0f;
     private const float MaxAudioSourceVolume = 1.0f;
-    
-    [SerializeField] private float _volumeChangingStep = 0.1f;
-    
+
     private AudioSource _audioSource;
     private Coroutine _volumeCoroutine;
-    
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -23,7 +23,7 @@ public class AlarmSystem : MonoBehaviour
     public void Enable()
     {
         StopVolumeCoroutine();
-        
+
         _volumeCoroutine = StartCoroutine(StartChangingVolumeTo(MaxAudioSourceVolume));
     }
 
@@ -47,8 +47,9 @@ public class AlarmSystem : MonoBehaviour
     {
         while (Mathf.Approximately(_audioSource.volume, targetVolume) == false)
         {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, Time.deltaTime * _volumeChangingStep);
-            
+            _audioSource.volume =
+                Mathf.MoveTowards(_audioSource.volume, targetVolume, Time.deltaTime * _volumeChangingStep);
+
             yield return null;
         }
     }

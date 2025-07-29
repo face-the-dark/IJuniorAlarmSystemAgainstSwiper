@@ -3,23 +3,29 @@
 public class House : MonoBehaviour
 {
     [SerializeField] private AlarmSystem _alarmSystem;
-    [SerializeField] private AlarmSystemTrigger _alarmTrigger;
+    [SerializeField] private Detector _swiperDetector;
 
     private void OnEnable()
     {
-        _alarmTrigger.SwiperIsIn += OnSwiperIsIn;
-        _alarmTrigger.SwiperIsOut += OnSwiperIsOut;
+        _swiperDetector.Detected += OnSwiperDetected;
+        _swiperDetector.Lost += OnSwiperLost;
     }
 
     private void OnDisable()
     {
-        _alarmTrigger.SwiperIsIn -= OnSwiperIsIn;
-        _alarmTrigger.SwiperIsOut -= OnSwiperIsOut;
+        _swiperDetector.Detected -= OnSwiperDetected;
+        _swiperDetector.Lost -= OnSwiperLost;
     }
 
-    private void OnSwiperIsIn() => 
-        _alarmSystem.Enable();
+    private void OnSwiperDetected(Collider other)
+    {
+        if (other.TryGetComponent(out Swiper swiper))
+            _alarmSystem.Enable();
+    }
 
-    private void OnSwiperIsOut() => 
-        _alarmSystem.Disable();
+    private void OnSwiperLost(Collider other)
+    {
+        if (other.TryGetComponent(out Swiper swiper))
+            _alarmSystem.Disable();
+    }
 }

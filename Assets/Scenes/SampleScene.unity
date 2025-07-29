@@ -370,8 +370,8 @@ Transform:
   - {fileID: 42792059}
   - {fileID: 642533871}
   - {fileID: 1068714137}
-  - {fileID: 1970717240}
   - {fileID: 1222115982}
+  - {fileID: 1970717240}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alarmSystem: {fileID: 1222115984}
-  _alarmTrigger: {fileID: 1970717243}
+  _swiperDetector: {fileID: 1970717243}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,6 +691,72 @@ Transform:
   m_Father: {fileID: 457850746}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &758583414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 758583415}
+  - component: {fileID: 758583416}
+  - component: {fileID: 758583417}
+  m_Layer: 0
+  m_Name: DoorDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &758583415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758583414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1141694007}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &758583416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758583414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe9780270ce4cdba4a16342482c8152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &758583417
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758583414}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 1}
 --- !u!1 &761282506
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,10 +871,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1068714137}
-  - component: {fileID: 1068714138}
   - component: {fileID: 1068714140}
+  - component: {fileID: 1068714138}
   - component: {fileID: 1068714139}
-  - component: {fileID: 1068714141}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -825,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 1068714136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 1.5, z: -2.5}
-  m_LocalScale: {x: 0.25, y: 1, z: 0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1715881888}
@@ -865,9 +930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2f6804f05f2bf458071908cda6b393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarmTrigger: {fileID: 1970717243}
---- !u!135 &1068714140
-SphereCollider:
+  _swiperDetector: {fileID: 1970717243}
+--- !u!65 &1068714140
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -881,25 +946,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.5
-  m_Center: {x: -4, y: 0, z: 0}
---- !u!114 &1068714141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068714136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a90aa4c177479ea7ff273fa65825c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _door: {fileID: 1068714139}
+  m_Size: {x: 2, y: 2.5, z: 0.25}
+  m_Center: {x: -1, y: 0, z: 0}
 --- !u!1 &1141694003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1059,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 519420032}
+  - {fileID: 758583415}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1050,6 +1103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
+  _doorDetector: {fileID: 758583416}
 --- !u!1 &1219427221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1456,6 @@ GameObject:
   - component: {fileID: 1715881888}
   - component: {fileID: 1715881887}
   - component: {fileID: 1715881886}
-  - component: {fileID: 1715881885}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -1410,27 +1463,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1715881885
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715881884}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1715881886
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1489,8 +1521,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715881884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 2.5, z: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2.5, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 12291927}
@@ -1614,7 +1646,7 @@ GameObject:
   - component: {fileID: 1970717239}
   - component: {fileID: 1970717243}
   m_Layer: 0
-  m_Name: AlarmSystemTrigger
+  m_Name: SwiperDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,10 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Door : MonoBehaviour
 {
-    private static readonly int OpenKey = Animator.StringToHash("Open");
-    private static readonly int CloseKey = Animator.StringToHash("Close");
+    [SerializeField] private Detector _swiperDetector;
 
-    [SerializeField] private AlarmSystemTrigger _alarmTrigger;
+    private static readonly int s_openKey = Animator.StringToHash("Open");
+    private static readonly int s_closeKey = Animator.StringToHash("Close");
 
     private Animator _animator;
     private bool _isOpen;
@@ -15,28 +15,31 @@ public class Door : MonoBehaviour
         _animator = GetComponent<Animator>();
 
     private void OnEnable() =>
-        _alarmTrigger.SwiperIsOut += OnSwiperIsOut;
+        _swiperDetector.Lost += OnSwiperLost;
 
     private void OnDisable() =>
-        _alarmTrigger.SwiperIsOut -= OnSwiperIsOut;
-
-    private void OnSwiperIsOut() =>
-        Close();
+        _swiperDetector.Lost -= OnSwiperLost;
 
     public void Open()
     {
         if (_isOpen == false)
         {
-            _animator.SetTrigger(OpenKey);
+            _animator.SetTrigger(s_openKey);
             _isOpen = true;
         }
+    }
+
+    private void OnSwiperLost(Collider other)
+    {
+        if (other.TryGetComponent(out Swiper swiper))
+            Close();
     }
 
     private void Close()
     {
         if (_isOpen)
         {
-            _animator.SetTrigger(CloseKey);
+            _animator.SetTrigger(s_closeKey);
             _isOpen = false;
         }
     }
