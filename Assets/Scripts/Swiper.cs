@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Swiper : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 5.0f;
-    [SerializeField] private Detector _doorDetector;
-
     private const KeyCode ForwardMoveKeyCode = KeyCode.W;
     private const KeyCode BackMoveKeyCode = KeyCode.S;
     private const KeyCode InteractKeyCode = KeyCode.E;
+
+    [SerializeField] private float _moveSpeed = 5.0f;
+    [SerializeField] private Detector _doorDetector;
 
     private Door _door;
 

@@ -3,10 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Door : MonoBehaviour
 {
-    [SerializeField] private Detector _swiperDetector;
-
     private static readonly int s_openKey = Animator.StringToHash("Open");
     private static readonly int s_closeKey = Animator.StringToHash("Close");
+    
+    [SerializeField] private Detector _swiperDetector;
 
     private Animator _animator;
     private bool _isOpen;
